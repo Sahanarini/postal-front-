@@ -1,0 +1,33 @@
+/* Postage.module.css */
+
+.postageContainer {
+    padding: 20px;
+  }
+  
+  .heading {
+    color: red;
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .serviceContainer {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .formContent {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .iconBox {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  
+  .iconBox:hover {
+    transform: scale(1.05);
+  }
+  

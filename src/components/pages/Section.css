@@ -1,0 +1,33 @@
+/* Container styling */
+.icon-container {
+  display: flex;
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+  gap: 8rem; /* Add spacing between items */
+  padding: 2rem; /* Add padding around the container */
+  background-color: #eedfb8; /* Mild yellow background */
+  min-height: 300px; /* Reduced height for the container */
+}
+
+/* Icon box styling */
+.icon-box {
+  text-align: center;
+  flex: 1; /* Allow items to grow and shrink */
+  max-width: 200px; /* Control maximum size of each icon box */
+  padding: 1rem; /* Add padding inside each icon box */
+}
+
+/* Icon image styling */
+.icon-image {
+  width: 100px; /* Adjust size as needed */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain;
+}
+
+/* Icon text styling */
+.icon-box h5 {
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  color: #333;
+}

@@ -1,0 +1,19 @@
+.summary-item {
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+}
+
+.summary-item h5 {
+    margin-bottom: 5px;
+}
+
+.summary-item p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Add any additional styles from your original CSS here */

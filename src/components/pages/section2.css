@@ -1,0 +1,60 @@
+/* Ensure full-width container */
+.section2-container {
+  background-color: #fdf6e5; /* Background color */
+  padding: 2rem 0; /* Padding around the container */
+}
+
+.section2-content {
+  display: flex;
+  flex-direction: row; /* Align items in a row */
+  width: 100%; /* Full width */
+  max-width: 100%; /* Full width */
+  height: 400px; /* Fixed height */
+  overflow: hidden; /* Hide overflow */
+}
+
+.section2-text {
+  flex: 1; /* Take up remaining space */
+  padding: 2rem; /* Padding inside the text section */
+  max-width: 25%; /* Limit width to 25% */
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.section2-image {
+  flex: 4; /* Image takes up 75% of the width */
+  position: relative; /* Position relative for better control */
+  overflow: hidden; /* Hide overflow */
+  display: flex; /* Enable flexbox */
+  align-items: center; /* Center image vertically */
+  justify-content: flex-end; /* Align image to the right */
+}
+
+.section2-image img {
+  width: 100%; /* Full width of the image container */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Cover the container */
+  object-position: right; /* Align the image to the right end */
+}
+
+h2, h6, p {
+  margin-bottom: 1rem; /* Margin below each text element */
+}
+
+@media (max-width: 768px) {
+  .section2-content {
+      flex-direction: column; /* Stack items vertically on small screens */
+      height: auto; /* Allow height to adjust */
+  }
+
+  .section2-text, .section2-image {
+      max-width: 100%; /* Full width on smaller screens */
+      padding: 1rem; /* Adjust padding on smaller screens */
+  }
+
+  .section2-image img {
+      width: 100%; /* Full width on smaller screens */
+      height: auto; /* Maintain aspect ratio */
+      object-fit: cover; /* Cover the container */
+      object-position: right; /* Align the image to the right end */
+  }
+}

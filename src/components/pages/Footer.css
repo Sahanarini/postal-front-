@@ -1,0 +1,22 @@
+.footer {
+    background-color: #343a40; /* Dark background */
+    color: white; /* White text */
+  }
+  
+  .footer h5 {
+    font-weight: bold;
+  }
+  
+  .footer ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer ul li {
+    margin: 5px 0;
+  }
+  
+  .footer a {
+    color: white; /* Links color */
+  }
+  
