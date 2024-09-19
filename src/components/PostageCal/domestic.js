@@ -50,21 +50,7 @@ export const domestic = {
           "range3": "₹150"
         }
       },
-      "document": {
-        "minLength": "15",
-        "maxLength": "40",
-        "minWidth": "10",
-        "maxWidth": "25",
-        "minWeight": "30",
-        "maxWeight": "600",
-        "minHeight": "2",
-        "maxHeight": "15",
-        "priceRange": {
-          "range1": "₹70",
-          "range2": "₹120",
-          "range3": "₹180"
-        }
-      },
+      
       "parcel": {
         "minLength": "20",
         "maxLength": "50",
@@ -80,21 +66,7 @@ export const domestic = {
           "range3": "₹350"
         }
       },
-      "bookPacket": {
-        "minLength": "15",
-        "maxLength": "45",
-        "minWidth": "12",
-        "maxWidth": "28",
-        "minWeight": "50",
-        "maxWeight": "1000",
-        "minHeight": "5",
-        "maxHeight": "20",
-        "priceRange": {
-          "range1": "₹80",
-          "range2": "₹140",
-          "range3": "₹200"
-        }
-      },
+      
       "postcard": {
         "minLength": "5",
         "maxLength": "15",

@@ -27,6 +27,7 @@ import Delivery from './components/Employee/Delivery';
 import Postapp from './components/PostOffice/Postapp';
 import Empapp from './components/Employee/Empapp';
 import PaymentPage from './components/payment/Payment';
+import UserMailView from './components/User/ViewMail';
 
 
 
@@ -55,6 +56,7 @@ const AppRouter = () => {
         <Route path='/pickup' element={<PickupDashboard/>}/>
         <Route path='/delivery' element={<Delivery/>}/>
         <Route path="/payment" element={<PaymentPage/>} />
+        <Route path='/usermailview' element={<UserMailView/>} />
 
 
         

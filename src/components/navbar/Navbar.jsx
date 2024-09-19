@@ -20,7 +20,7 @@ function Navbar() {
     const toggleAuthDropdown = () => setAuthDropdownOpen(!authDropdownOpen);
 
     const handleLogout = () => {
-        sessionStorage.removeItem('userId');
+        sessionStorage.clear();
         setIsLoggedIn(false); // Update the state
         navigate('/'); // Redirect to the home page or login page
     };
@@ -62,7 +62,6 @@ function Navbar() {
                 </div>
                 
                 <a href="/PostLogin">Banking & Remittance</a>
-                
             </div>
             
             {/* Conditional Rendering of Buttons */}
@@ -74,6 +73,12 @@ function Navbar() {
                             onClick={() => navigate('/profile')}
                         >
                             <FontAwesomeIcon icon={faUser} /> Profile
+                        </button>
+                        <button
+                            className="navbar-button"
+                            onClick={() => navigate('/usermailview')}
+                        >
+                            Mail History
                         </button>
                         <button
                             className="navbar-button"

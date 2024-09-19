@@ -12,9 +12,10 @@ const MailsView1 = () => {
     const [selectedMail, setSelectedMail] = useState(null);
     const [selectedEmployee, setSelectedEmployee] = useState('');
 
-    useEffect(() => {
-        const toPincode = sessionStorage.getItem('pincode');
+    // Retrieve pincode from session storage
+    const toPincode = sessionStorage.getItem('pincode');
 
+    useEffect(() => {
         if (!toPincode) {
             setError('No destination pincode found in session storage');
             setLoading(false);
@@ -45,7 +46,7 @@ const MailsView1 = () => {
 
         fetchMails();
         fetchEmployees();
-    }, []);
+    }, [toPincode]);
 
     const handleAssignEmployee = (mail) => {
         setSelectedMail(mail);
@@ -81,7 +82,7 @@ const MailsView1 = () => {
 
     return (
         <div className={styles.tableContainer}>
-            <h1 className="text-center text-2xl font-semibold mb-6">Mails List</h1>
+            <h1 className="text-center text-2xl font-semibold mb-6">Mails List (Pincode: {toPincode})</h1>
             <table className={styles.table}>
                 <thead>
                     <tr>

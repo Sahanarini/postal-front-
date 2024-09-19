@@ -19,10 +19,10 @@ const Postsidebar = () => {
           <Link to="/topost" className="block p-3 rounded-md hover:bg-red-700
            transition-colors duration-200 font-medium">delivery</Link>
         </li>
-        <li>
+        {/* <li>
           <Link to="/settings" className="block p-3 rounded-md hover:bg-red-700
            transition-colors duration-200 font-medium">Settings</Link>
-        </li>
+        </li> */}
       </ul>
     </div>
   );

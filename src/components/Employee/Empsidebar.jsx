@@ -7,7 +7,7 @@ const Empsidebar = () => {
 
   const handleLogout = () => {
     // Clear session storage
-    sessionStorage.removeItem('user');
+    sessionStorage.clear();
     // Navigate to homepage
     navigate('/');
   };

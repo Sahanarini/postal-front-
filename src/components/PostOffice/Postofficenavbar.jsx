@@ -8,18 +8,7 @@ const Postofficenavbar = () => {
         <h1 className="text-2xl font-bold">Post Office Admin Dashboard</h1>
         <nav>
           <ul className="flex space-x-6">
-            <li>
-              <a href="#" className="hover:text-gray-200 transition-colors">Home</a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-200 transition-colors">Employees</a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-200 transition-colors">Reports</a>
-            </li>
-            <li>
-              <a href="#" className="hover:text-gray-200 transition-colors">Settings</a>
-            </li>
+           
           </ul>
         </nav>
       </div>

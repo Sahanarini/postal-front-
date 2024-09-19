@@ -35,12 +35,13 @@ const PaymentForm = () => {
       }
     };
 
-    try {
+    try 
+    {
       // Process payment logic here if necessary
       // This could involve validating the UPI or card details, but not storing them.
-
       const response = await axios.post('http://localhost:9999/addPayment', paymentData);
-      if (response.data === 'added') {
+      if (response.data === 'added') 
+      {
         setSuccess('Payment added successfully!');
         setError('');
         // Clear the form
@@ -49,10 +50,13 @@ const PaymentForm = () => {
         setUpiId('');
         setCardNumber('');
       }
-    } catch (err) {
+    } 
+    catch (err) 
+    {
       setError('Failed to add payment. Please try again.');
       setSuccess('');
     }
+
   };
 
   return (

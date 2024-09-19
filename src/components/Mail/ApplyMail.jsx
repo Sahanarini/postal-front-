@@ -1,1100 +1,18 @@
-
-// // import React, { useState, useEffect } from 'react';
-// // import axios from 'axios';
-// // import Swal from 'sweetalert2';
-// // import { Container, Form, Button, Card } from 'react-bootstrap';
-// // import styles from './MailAddressForm.module.css'; // Import CSS module
-
-// // const MailAddressForm = () => {
-// //   const [currentStep, setCurrentStep] = useState(1);
-// //   const [mailData, setMailData] = useState({
-// //     service: '',
-// //     articleType: '',
-// //     articlecontent: '',
-// //     createdAt: '',
-// //     price: '',
-// //     weight: '',
-// //     length: '',
-// //     height: '',
-// //     width: '',
-// //     value: '',
-// //     collectiondate: '',
-// //     time: '',
-// //     status: 'requested',
-// //     user: { userId: sessionStorage.getItem('userId') },
-// //     address: { id: sessionStorage.getItem('id') }
-// //   });
-
-// //   const [addressData, setAddressData] = useState({
-// //     toName: '',
-// //     toAddress: '',
-// //     toCountry: '',
-// //     toState: '',
-// //     toCity: '',
-// //     toPincode: '',
-// //     toEmail: '',
-// //     toMobile: ''
-// //   });
-
-// //   useEffect(() => {
-// //     console.log('Initialized User ID:', sessionStorage.getItem('userId'));
-// //     console.log('Initialized Address ID:', sessionStorage.getItem('id'));
-// //   }, []);
-
-// //   const handleMailChange = (e) => {
-// //     setMailData(prevData => ({
-// //       ...prevData,
-// //       [e.target.name]: e.target.value
-// //     }));
-// //   };
-
-// //   const handleAddressChange = (e) => {
-// //     setAddressData(prevData => ({
-// //       ...prevData,
-// //       [e.target.name]: e.target.value
-// //     }));
-// //   };
-
-// //   const handleNext = () => {
-// //     if (currentStep === 1) {
-// //       setCurrentStep(2);
-// //     }
-// //   };
-
-// //   const handleSaveAddress = async () => {
-// //     try {
-// //       const response = await axios.post('http://localhost:9999/addAddress', addressData);
-// //       console.log('Server response:', response.data);
-
-// //       if (response.data && response.data.id) {
-// //         sessionStorage.setItem('id', response.data.id);
-// //         setMailData(prevData => ({
-// //           ...prevData,
-// //           address: { id: response.data.id }
-// //         }));
-// //         setCurrentStep(3);
-// //       } else {
-// //         throw new Error('Address ID not returned from server.');
-// //       }
-// //     } catch (error) {
-// //       console.error(error);
-// //       Swal.fire({
-// //         title: 'Error',
-// //         text: 'There was a problem saving the address.',
-// //         icon: 'error',
-// //       });
-// //     }
-// //   };
-
-// //   const handleSubmit = async () => {
-// //     const { address, user } = mailData;
-// //     if (!address.id || !user.userId) {
-// //       Swal.fire({
-// //         title: 'Error',
-// //         text: 'Address ID or User ID is missing.',
-// //         icon: 'error',
-// //       });
-// //       return;
-// //     }
-
-// //     const dataToSend = {
-// //       ...mailData,
-// //       user,
-// //       address
-// //     };
-
-// //     console.log('Mail data being sent to backend:', dataToSend);
-
-// //     try {
-// //       const response = await axios.post('http://localhost:9999/addMail', dataToSend, {
-// //         headers: {
-// //           'Content-Type': 'application/json'
-// //         }
-// //       });
-// //       Swal.fire({
-// //         title: 'Success',
-// //         text: 'Mail placed successfully.',
-// //         icon: 'success',
-// //       });
-// //     } catch (error) {
-// //       console.error(error.response ? error.response.data : error.message);
-// //       Swal.fire({
-// //         title: 'Error',
-// //         text: 'There was a problem placing the mail.',
-// //         icon: 'error',
-// //       });
-// //     }
-// //   };
-
-// //   return (
-// //     <Container className="my-4">
-// //       <Card className={`${styles.formContainer} p-4 shadow-lg rounded-lg`}>
-// //         <div className={styles.stepperContainer}>
-// //           <div className={`${styles.step} ${currentStep === 1 ? styles.stepActive : ''}`}>1</div>
-// //           <div className={`${styles.stepLine} ${currentStep > 1 ? styles.stepLineActive : ''}`}></div>
-// //           <div className={`${styles.step} ${currentStep === 2 ? styles.stepActive : ''}`}>2</div>
-// //           <div className={`${styles.stepLine} ${currentStep > 2 ? styles.stepLineActive : ''}`}></div>
-// //           <div className={`${styles.step} ${currentStep === 3 ? styles.stepActive : ''}`}>3</div>
-// //         </div>
-
-// //         <Form>
-// //           {currentStep === 1 && (
-// //             <div>
-// //               <Card.Title className={styles.cardTitle}>Mail Information</Card.Title>
-// //               {[
-// //                 { label: 'Service', name: 'service', type: 'text' },
-// //                 { label: 'Article Type', name: 'articleType', type: 'text' },
-// //                 { label: 'Article Content', name: 'articlecontent', type: 'text' },
-// //                 { label: 'Created At', name: 'createdAt', type: 'date' },
-// //                 { label: 'Price', name: 'price', type: 'number' },
-// //                 { label: 'Weight', name: 'weight', type: 'number' },
-// //                 { label: 'Length', name: 'length', type: 'number' },
-// //                 { label: 'Height', name: 'height', type: 'number' },
-// //                 { label: 'Width', name: 'width', type: 'number' },
-// //                 { label: 'Value', name: 'value', type: 'number' },
-// //                 { label: 'Collection Date', name: 'collectiondate', type: 'date' },
-// //                 { label: 'Time', name: 'time', type: 'text' },
-// //                 // { label: 'Status', name: 'status', type: 'text' },
-// //                 // { label: 'User ID', name: 'user.userId', type: 'text', readOnly: true },
-// //                 // { label: 'Address ID', name: 'address.id', type: 'text', readOnly: true }
-// //               ].map(({ label, name, type, readOnly }) => (
-// //                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-// //                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-// //                   <Form.Control
-// //                     type={type}
-// //                     name={name}
-// //                     value={mailData[name]}
-// //                     onChange={handleMailChange}
-// //                     placeholder={`Enter ${label.toLowerCase()}`}
-// //                     className={styles.formControl}
-// //                     readOnly={readOnly}
-// //                   />
-// //                 </Form.Group>
-// //               ))}
-// //               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next</Button>
-// //             </div>
-// //           )}
-
-// //           {currentStep === 2 && (
-// //             <div>
-// //               <Card.Title className={styles.cardTitle}>Address Information</Card.Title>
-// //               {[
-// //                 { label: 'Recipient\'s Name', name: 'toName', type: 'text' },
-// //                 { label: 'Address', name: 'toAddress', type: 'text' },
-// //                 { label: 'Country', name: 'toCountry', type: 'text' },
-// //                 { label: 'State', name: 'toState', type: 'text' },
-// //                 { label: 'City', name: 'toCity', type: 'text' },
-// //                 { label: 'Pincode', name: 'toPincode', type: 'text' },
-// //                 { label: 'Email', name: 'toEmail', type: 'email' },
-// //                 { label: 'Mobile', name: 'toMobile', type: 'text' }
-// //               ].map(({ label, name, type }) => (
-// //                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-// //                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-// //                   <Form.Control
-// //                     type={type}
-// //                     name={name}
-// //                     value={addressData[name]}
-// //                     onChange={handleAddressChange}
-// //                     placeholder={`Enter ${label.toLowerCase()}`}
-// //                     className={styles.formControl}
-// //                   />
-// //                 </Form.Group>
-// //               ))}
-// //               <Button className={`${styles.buttonSave} mt-3`} onClick={handleSaveAddress}>Save Address</Button>
-// //             </div>
-// //           )}
-
-// //           {currentStep === 3 && (
-// //             <div>
-// //               <Card.Title className={styles.cardTitle}>Review and Submit</Card.Title>
-// //               <p>Please review your information and submit.</p>
-// //               <Button className={`${styles.buttonSubmit} mt-3`} onClick={handleSubmit}>Submit</Button>
-// //             </div>
-// //           )}
-// //         </Form>
-// //       </Card>
-// //     </Container>
-// //   );
-// // };
-
-// // export default MailAddressForm;
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import Swal from 'sweetalert2';
-// import { Container, Form, Button, Card } from 'react-bootstrap';
-// import styles from './MailAddressForm.module.css'; // Import CSS module
-// import { useNavigate } from 'react-router-dom';
-
-// const MailAddressForm = () => {
-//   const [currentStep, setCurrentStep] = useState(1);
-//   const [mailData, setMailData] = useState({
-//     service: '',
-//     articleType: '',
-//     articlecontent: '',
-//     createdAt: '',
-//     price: '',
-//     weight: '',
-//     length: '',
-//     height: '',
-//     width: '',
-//     value: '',
-//     collectiondate: '',
-//     time: '',
-//     status: 'requested',
-//     user: { userId: sessionStorage.getItem('userId') },
-//     address: { id: sessionStorage.getItem('id') }
-//   });
-
-//   const [addressData, setAddressData] = useState({
-//     toName: '',
-//     toAddress: '',
-//     toCountry: '',
-//     toState: '',
-//     toCity: '',
-//     toPincode: '',
-//     toEmail: '',
-//     toMobile: ''
-//   });
-
-//   const [pincodes, setPincodes] = useState([]);
-
-//   const navigate = useNavigate();
-//   useEffect(() => {
-//     const fetchPincodes = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:9999/getAllPostoffice');
-//         const fetchedPincodes = response.data; // Assume response data is an array of objects
-
-//         // Get the pincode from session and handle null case
-//         const sessionPincode = sessionStorage.getItem('id');
-//         const trimmedSessionPincode = sessionPincode ? sessionPincode.trim() : '';
-
-//         // Filter out the pincode from session
-//         const filteredPincodes = fetchedPincodes.filter(pincodeObj => 
-//           pincodeObj.pincode.toString().trim() !== trimmedSessionPincode
-//         );
-//         setPincodes(filteredPincodes);
-//       } catch (error) {
-//         console.error('Error fetching pincodes:', error);
-//         Swal.fire({
-//           title: 'Error',
-//           text: 'Failed to load pincodes.',
-//           icon: 'error',
-//         });
-//       }
-//     };
-//     fetchPincodes();
-//   }, []);
-
-//   const handleMailChange = (e) => {
-//     setMailData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-  
-//   const handleAddressChange = (e) => {
-//     setAddressData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handleNext = () => {
-//     if (currentStep === 1) {
-//       setCurrentStep(2);
-//     }
-//   };
-
-//   const handleSaveAddress = async () => {
-//     try {
-//       const response = await axios.post('http://localhost:9999/addAddress', addressData);
-//       console.log('Server response:', response.data);
-
-//       if (response.data && response.data.id) {
-//         sessionStorage.setItem('id', response.data.id);
-//         setMailData(prevData => ({
-//           ...prevData,
-//           address: { id: response.data.id }
-//         }));
-//         setCurrentStep(3);
-//       } else {
-//         throw new Error('Address ID not returned from server.');
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem saving the address.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   const handleSubmit = async () => {
-//     const { address, user } = mailData;
-//     if (!address.id || !user.userId) {
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'Address ID or User ID is missing.',
-//         icon: 'error',
-//       });
-//       return;
-//     }
-
-//     const dataToSend = {
-//       ...mailData,
-//       user,
-//       address
-//     };
-
-//     console.log('Mail data being sent to backend:', dataToSend);
-
-//     try {
-//       const response = await axios.post('http://localhost:9999/addMail', dataToSend, {
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       });
-//       Swal.fire({
-//         title: 'Success',
-//         text: 'Mail placed successfully.',
-//         icon: 'success',
-//       });
-//       navigate('/payment');
-//     } catch (error) {
-//       console.error(error.response ? error.response.data : error.message);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem placing the mail.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   return (
-//     <Container className="my-4">
-//       <Card className={`${styles.formContainer} p-4 shadow-lg rounded-lg`}>
-//         <div className={styles.stepperContainer}>
-//           <div className={`${styles.step} ${currentStep === 1 ? styles.stepActive : ''}`}>1</div>
-//           <div className={`${styles.stepLine} ${currentStep > 1 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 2 ? styles.stepActive : ''}`}>2</div>
-//           <div className={`${styles.stepLine} ${currentStep > 2 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 3 ? styles.stepActive : ''}`}>3</div>
-//         </div>
-
-//         <Form>
-//           {currentStep === 1 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Mail Information</Card.Title>
-//               {[
-//                 { label: 'Service', name: 'service', type: 'text' },
-//                 { label: 'Article Type', name: 'articleType', type: 'text' },
-//                 { label: 'Article Content', name: 'articlecontent', type: 'text' },
-//                 { label: 'Created At', name: 'createdAt', type: 'date' },
-//                 { label: 'Price', name: 'price', type: 'number' },
-//                 { label: 'Weight', name: 'weight', type: 'number' },
-//                 { label: 'Length', name: 'length', type: 'number' },
-//                 { label: 'Height', name: 'height', type: 'number' },
-//                 { label: 'Width', name: 'width', type: 'number' },
-//                 { label: 'Value', name: 'value', type: 'number' },
-//                 { label: 'Collection Date', name: 'collectiondate', type: 'date' },
-//                 { label: 'Time', name: 'time', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   <Form.Control
-//                     type={type}
-//                     name={name}
-//                     value={mailData[name]}
-//                     onChange={handleMailChange}
-//                     placeholder={`Enter ${label.toLowerCase()}`}
-//                     className={styles.formControl}
-//                   />
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 2 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Address Information</Card.Title>
-//               {[
-//                 { label: 'Recipient\'s Name', name: 'toName', type: 'text' },
-//                 { label: 'Address', name: 'toAddress', type: 'text' },
-//                 { label: 'Country', name: 'toCountry', type: 'text' },
-//                 { label: 'State', name: 'toState', type: 'text' },
-//                 { label: 'City', name: 'toCity', type: 'text' },
-//                 { label: 'Pincode', name: 'toPincode', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   {name === 'toPincode' ? (
-//                     <Form.Control
-//                       as="select"
-//                       name="toPincode"
-//                       value={addressData.toPincode}
-//                       onChange={handleAddressChange}
-//                       className={styles.formControl}
-//                     >
-//                       <option value="">Select Pincode</option>
-//                       {pincodes.map((pincodeObj) => (
-//                         <option key={pincodeObj.pincode} value={pincodeObj.pincode}>
-//                           {pincodeObj.pincode} - {pincodeObj.postOfficeName}
-//                         </option>
-//                       ))}
-//                     </Form.Control>
-//                   ) : (
-//                     <Form.Control
-//                       type={type}
-//                       name={name}
-//                       value={addressData[name]}
-//                       onChange={handleAddressChange}
-//                       placeholder={`Enter ${label.toLowerCase()}`}
-//                       className={styles.formControl}
-//                     />
-//                   )}
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonSave} mt-3`} onClick={handleSaveAddress}>Save Address</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 3 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Review and Submit</Card.Title>
-//               <p>Please review your information and submit.</p>
-//               <Button className={`${styles.buttonSubmit} mt-3`} onClick={handleSubmit}>Submit</Button>
-//             </div>
-//           )}
-//         </Form>
-//       </Card>
-//     </Container>
-//   );
-// };
-
-// export default MailAddressForm;
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import Swal from 'sweetalert2';
-// import { Container, Form, Button, Card } from 'react-bootstrap';
-// import styles from './MailAddressForm.module.css'; // Import CSS module
-// import { useNavigate } from 'react-router-dom';
-
-// const MailAddressForm = () => {
-//   const [currentStep, setCurrentStep] = useState(1);
-//   const [mailData, setMailData] = useState({
-//     service: '',
-//     articleType: '',
-//     articlecontent: '',
-//     createdAt: '',
-//     price: '',
-//     weight: '',
-//     length: '',
-//     height: '',
-//     width: '',
-//     value: '',
-//     collectiondate: '',
-//     time: '',
-//     status: 'requested',
-//     user: { userId: sessionStorage.getItem('userId') },
-//     address: { id: sessionStorage.getItem('id') }
-//   });
-
-//   const [addressData, setAddressData] = useState({
-//     toName: '',
-//     toAddress: '',
-//     toCountry: '',
-//     toState: '',
-//     toCity: '',
-//     toPincode: '',
-//     toEmail: '',
-//     toMobile: ''
-//   });
-
-//   const [paymentData, setPaymentData] = useState({
-//     cardNumber: '',
-//     cardExpiry: '',
-//     cardCVC: ''
-//   });
-
-//   const [pincodes, setPincodes] = useState([]);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchPincodes = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:9999/getAllPostoffice');
-//         const fetchedPincodes = response.data;
-
-//         const sessionPincode = sessionStorage.getItem('id');
-//         const trimmedSessionPincode = sessionPincode ? sessionPincode.trim() : '';
-
-//         const filteredPincodes = fetchedPincodes.filter(pincodeObj =>
-//           pincodeObj.pincode.toString().trim() !== trimmedSessionPincode
-//         );
-//         setPincodes(filteredPincodes);
-//       } catch (error) {
-//         console.error('Error fetching pincodes:', error);
-//         Swal.fire({
-//           title: 'Error',
-//           text: 'Failed to load pincodes.',
-//           icon: 'error',
-//         });
-//       }
-//     };
-//     fetchPincodes();
-//   }, []);
-
-//   const handleMailChange = (e) => {
-//     setMailData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handleAddressChange = (e) => {
-//     setAddressData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handlePaymentChange = (e) => {
-//     setPaymentData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handleNext = () => {
-//     if (currentStep < 4) {
-//       setCurrentStep(currentStep + 1);
-//     }
-//   };
-
-//   const handleSaveAddress = async () => {
-//     try {
-//       const response = await axios.post('http://localhost:9999/addAddress', addressData);
-//       console.log('Server response:', response.data);
-
-//       if (response.data && response.data.id) {
-//         sessionStorage.setItem('id', response.data.id);
-//         setMailData(prevData => ({
-//           ...prevData,
-//           address: { id: response.data.id }
-//         }));
-//         setCurrentStep(3); // Move to review step
-//       } else {
-//         throw new Error('Address ID not returned from server.');
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem saving the address.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   const handleSubmit = async () => {
-//     const { address, user } = mailData;
-//     if (!address.id || !user.userId) {
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'Address ID or User ID is missing.',
-//         icon: 'error',
-//       });
-//       return;
-//     }
-
-//     const dataToSend = {
-//       ...mailData,
-//       user,
-//       address,
-//       paymentData
-//     };
-
-//     console.log('Mail data being sent to backend:', dataToSend);
-
-//     try {
-//       const response = await axios.post('http://localhost:9999/addMail', dataToSend, {
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       });
-//       Swal.fire({
-//         title: 'Success',
-//         text: 'Mail placed successfully.',
-//         icon: 'success',
-//       });
-//       navigate('/payment');
-//     } catch (error) {
-//       console.error(error.response ? error.response.data : error.message);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem placing the mail.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   return (
-//     <Container className="my-4">
-//       <Card className={`${styles.formContainer} p-4 shadow-lg rounded-lg`}>
-//         <div className={styles.stepperContainer}>
-//           <div className={`${styles.step} ${currentStep === 1 ? styles.stepActive : ''}`}>1</div>
-//           <div className={`${styles.stepLine} ${currentStep > 1 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 2 ? styles.stepActive : ''}`}>2</div>
-//           <div className={`${styles.stepLine} ${currentStep > 2 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 3 ? styles.stepActive : ''}`}>3</div>
-//           <div className={`${styles.stepLine} ${currentStep > 3 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 4 ? styles.stepActive : ''}`}>4</div>
-//         </div>
-
-//         <Form>
-//           {currentStep === 1 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Mail Information</Card.Title>
-//               {[
-//                 { label: 'Service', name: 'service', type: 'text' },
-//                 { label: 'Article Type', name: 'articleType', type: 'text' },
-//                 { label: 'Article Content', name: 'articlecontent', type: 'text' },
-//                 { label: 'Created At', name: 'createdAt', type: 'date' },
-//                 { label: 'Price', name: 'price', type: 'number' },
-//                 { label: 'Weight', name: 'weight', type: 'number' },
-//                 { label: 'Length', name: 'length', type: 'number' },
-//                 { label: 'Height', name: 'height', type: 'number' },
-//                 { label: 'Width', name: 'width', type: 'number' },
-//                 { label: 'Value', name: 'value', type: 'number' },
-//                 { label: 'Collection Date', name: 'collectiondate', type: 'date' },
-//                 { label: 'Time', name: 'time', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   <Form.Control
-//                     type={type}
-//                     name={name}
-//                     value={mailData[name]}
-//                     onChange={handleMailChange}
-//                     placeholder={`Enter ${label.toLowerCase()}`}
-//                     className={styles.formControl}
-//                   />
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 2 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Address Information</Card.Title>
-//               {[
-//                 { label: 'Recipient\'s Name', name: 'toName', type: 'text' },
-//                 { label: 'Address', name: 'toAddress', type: 'text' },
-//                 { label: 'Country', name: 'toCountry', type: 'text' },
-//                 { label: 'State', name: 'toState', type: 'text' },
-//                 { label: 'City', name: 'toCity', type: 'text' },
-//                 { label: 'Pincode', name: 'toPincode', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   {name === 'toPincode' ? (
-//                     <Form.Control
-//                       as="select"
-//                       name="toPincode"
-//                       value={addressData.toPincode}
-//                       onChange={handleAddressChange}
-//                       className={styles.formControl}
-//                     >
-//                       <option value="">Select Pincode</option>
-//                       {pincodes.map((pincodeObj) => (
-//                         <option key={pincodeObj.pincode} value={pincodeObj.pincode}>
-//                           {pincodeObj.pincode} - {pincodeObj.postOfficeName}
-//                         </option>
-//                       ))}
-//                     </Form.Control>
-//                   ) : (
-//                     <Form.Control
-//                       type={type}
-//                       name={name}
-//                       value={addressData[name]}
-//                       onChange={handleAddressChange}
-//                       placeholder={`Enter ${label.toLowerCase()}`}
-//                       className={styles.formControl}
-//                     />
-//                   )}
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonSave} mt-3`} onClick={handleSaveAddress}>Save Address</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 3 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Review and Submit</Card.Title>
-//               <p>Please review your information and submit.</p>
-//               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next to Payment</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 4 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Payment Information</Card.Title>
-//               {[
-//                 { label: 'Card Number', name: 'cardNumber', type: 'text' },
-//                 { label: 'Expiry Date', name: 'cardExpiry', type: 'text' },
-//                 { label: 'CVC', name: 'cardCVC', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   <Form.Control
-//                     type={type}
-//                     name={name}
-//                     value={paymentData[name]}
-//                     onChange={handlePaymentChange}
-//                     placeholder={`Enter ${label.toLowerCase()}`}
-//                     className={styles.formControl}
-//                   />
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonSubmit} mt-3`} onClick={handleSubmit}>Submit Payment</Button>
-//             </div>
-//           )}
-//         </Form>
-//       </Card>
-//     </Container>
-//   );
-// };
-
-// export default MailAddressForm;
-
-
-
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import Swal from 'sweetalert2';
-// import { Container, Form, Button, Card } from 'react-bootstrap';
-// import styles from './MailAddressForm.module.css'; // Import CSS module
-// import { useNavigate } from 'react-router-dom';
-
-// const MailAddressForm = () => {
-//   const [currentStep, setCurrentStep] = useState(1);
-//   const [mailData, setMailData] = useState({
-//     service: '',
-//     articleType: '',
-//     articlecontent: '',
-//     createdAt: '',
-//     price: '',
-//     weight: '',
-//     length: '',
-//     height: '',
-//     width: '',
-//     value: '',
-//     collectiondate: '',
-//     time: '',
-//     status: 'requested',
-//     user: { userId: sessionStorage.getItem('userId') },
-//     address: { id: sessionStorage.getItem('id') }
-//   });
-
-//   const [addressData, setAddressData] = useState({
-//     toName: '',
-//     toAddress: '',
-//     toCountry: '',
-//     toState: '',
-//     toCity: '',
-//     toPincode: '',
-//     toEmail: '',
-//     toMobile: ''
-//   });
-
-//   const [paymentData, setPaymentData] = useState({
-//     cardNumber: '',
-//     cardExpiry: '',
-//     cardCVC: ''
-//   });
-
-//   const [pincodes, setPincodes] = useState([]);
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const fetchPincodes = async () => {
-//       try {
-//         const response = await axios.get('http://localhost:9999/getAllPostoffice');
-//         const fetchedPincodes = response.data;
-
-//         const sessionPincode = sessionStorage.getItem('id');
-//         const trimmedSessionPincode = sessionPincode ? sessionPincode.trim() : '';
-
-//         const filteredPincodes = fetchedPincodes.filter(pincodeObj =>
-//           pincodeObj.pincode.toString().trim() !== trimmedSessionPincode
-//         );
-//         setPincodes(filteredPincodes);
-//       } catch (error) {
-//         console.error('Error fetching pincodes:', error);
-//         Swal.fire({
-//           title: 'Error',
-//           text: 'Failed to load pincodes.',
-//           icon: 'error',
-//         });
-//       }
-//     };
-//     fetchPincodes();
-//   }, []);
-
-//   const handleMailChange = (e) => {
-//     setMailData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handleAddressChange = (e) => {
-//     setAddressData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handlePaymentChange = (e) => {
-//     setPaymentData(prevData => ({
-//       ...prevData,
-//       [e.target.name]: e.target.value
-//     }));
-//   };
-
-//   const handleNext = () => {
-//     if (currentStep < 4) {
-//       setCurrentStep(currentStep + 1);
-//     }
-//   };
-
-//   const handleSaveAddress = async () => {
-//     try {
-//       const response = await axios.post('http://localhost:9999/addAddress', addressData);
-//       console.log('Server response:', response.data);
-
-//       if (response.data && response.data.id) {
-//         sessionStorage.setItem('id', response.data.id);
-//         setMailData(prevData => ({
-//           ...prevData,
-//           address: { id: response.data.id }
-//         }));
-//         setCurrentStep(3); // Move to review step
-//       } else {
-//         throw new Error('Address ID not returned from server.');
-//       }
-//     } catch (error) {
-//       console.error(error);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem saving the address.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   const handleSubmit = async () => {
-//     const { address, user } = mailData;
-//     if (!address.id || !user.userId) {
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'Address ID or User ID is missing.',
-//         icon: 'error',
-//       });
-//       return;
-//     }
-
-//     const dataToSend = {
-//       ...mailData,
-//       user,
-//       address,
-//       paymentData
-//     };
-
-//     console.log('Mail data being sent to backend:', dataToSend);
-
-//     try {
-//       const response = await axios.post('http://localhost:9999/addMail', dataToSend, {
-//         headers: {
-//           'Content-Type': 'application/json'
-//         }
-//       });
-//       Swal.fire({
-//         title: 'Success',
-//         text: 'Mail placed successfully.',
-//         icon: 'success',
-//       });
-//       navigate('/payment');
-//     } catch (error) {
-//       console.error(error.response ? error.response.data : error.message);
-//       Swal.fire({
-//         title: 'Error',
-//         text: 'There was a problem placing the mail.',
-//         icon: 'error',
-//       });
-//     }
-//   };
-
-//   return (
-//     <Container className="my-4">
-//       <Card className={`${styles.formContainer} p-4 shadow-lg rounded-lg`}>
-//         <div className={styles.stepperContainer}>
-//           <div className={`${styles.step} ${currentStep === 1 ? styles.stepActive : ''}`}>1</div>
-//           <div className={`${styles.stepLine} ${currentStep > 1 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 2 ? styles.stepActive : ''}`}>2</div>
-//           <div className={`${styles.stepLine} ${currentStep > 2 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 3 ? styles.stepActive : ''}`}>3</div>
-//           <div className={`${styles.stepLine} ${currentStep > 3 ? styles.stepLineActive : ''}`}></div>
-//           <div className={`${styles.step} ${currentStep === 4 ? styles.stepActive : ''}`}>4</div>
-//         </div>
-
-//         <Form>
-//           {currentStep === 1 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Mail Information</Card.Title>
-//               {[
-//                 { label: 'Service', name: 'service', type: 'text' },
-//                 { label: 'Article Type', name: 'articleType', type: 'text' },
-//                 { label: 'Article Content', name: 'articlecontent', type: 'text' },
-//                 { label: 'Created At', name: 'createdAt', type: 'date' },
-//                 { label: 'Price', name: 'price', type: 'number' },
-//                 { label: 'Weight', name: 'weight', type: 'number' },
-//                 { label: 'Length', name: 'length', type: 'number' },
-//                 { label: 'Height', name: 'height', type: 'number' },
-//                 { label: 'Width', name: 'width', type: 'number' },
-//                 { label: 'Value', name: 'value', type: 'number' },
-//                 { label: 'Collection Date', name: 'collectiondate', type: 'date' },
-//                 { label: 'Time', name: 'time', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   <Form.Control
-//                     type={type}
-//                     name={name}
-//                     value={mailData[name]}
-//                     onChange={handleMailChange}
-//                     placeholder={`Enter ${label.toLowerCase()}`}
-//                     className={styles.formControl}
-//                   />
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 2 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Address Information</Card.Title>
-//               {[
-//                 { label: 'Recipient\'s Name', name: 'toName', type: 'text' },
-//                 { label: 'Address', name: 'toAddress', type: 'text' },
-//                 { label: 'Country', name: 'toCountry', type: 'text' },
-//                 { label: 'State', name: 'toState', type: 'text' },
-//                 { label: 'City', name: 'toCity', type: 'text' },
-//                 { label: 'Pincode', name: 'toPincode', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   {name === 'toPincode' ? (
-//                     <Form.Control
-//                       as="select"
-//                       name="toPincode"
-//                       value={addressData.toPincode}
-//                       onChange={handleAddressChange}
-//                       className={styles.formControl}
-//                     >
-//                       <option value="">Select Pincode</option>
-//                       {pincodes.map((pincodeObj) => (
-//                         <option key={pincodeObj.pincode} value={pincodeObj.pincode}>
-//                           {pincodeObj.pincode} - {pincodeObj.postOfficeName}
-//                         </option>
-//                       ))}
-//                     </Form.Control>
-//                   ) : (
-//                     <Form.Control
-//                       type={type}
-//                       name={name}
-//                       value={addressData[name]}
-//                       onChange={handleAddressChange}
-//                       placeholder={`Enter ${label.toLowerCase()}`}
-//                       className={styles.formControl}
-//                     />
-//                   )}
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonSave} mt-3`} onClick={handleSaveAddress}>Save Address</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 3 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Review and Submit</Card.Title>
-//               <p>Please review your information and submit.</p>
-//               <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next to Payment</Button>
-//             </div>
-//           )}
-
-//           {currentStep === 4 && (
-//             <div>
-//               <Card.Title className={styles.cardTitle}>Payment Information</Card.Title>
-//               {[
-//                 { label: 'Card Number', name: 'cardNumber', type: 'text' },
-//                 { label: 'Expiry Date', name: 'cardExpiry', type: 'text' },
-//                 { label: 'CVC', name: 'cardCVC', type: 'text' }
-//               ].map(({ label, name, type }) => (
-//                 <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-//                   <Form.Label className={styles.formLabel}>{label}</Form.Label>
-//                   <Form.Control
-//                     type={type}
-//                     name={name}
-//                     value={paymentData[name]}
-//                     onChange={handlePaymentChange}
-//                     placeholder={`Enter ${label.toLowerCase()}`}
-//                     className={styles.formControl}
-//                   />
-//                 </Form.Group>
-//               ))}
-//               <Button className={`${styles.buttonSubmit} mt-3`} onClick={handleSubmit}>Submit Payment</Button>
-//             </div>
-//           )}
-//         </Form>
-//       </Card>
-//     </Container>
-//   );
-// };
-
-// export default MailAddressForm;
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import styles from './MailAddressForm.module.css';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../navbar/Navbar';
 
 const MailAddressForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [mailData, setMailData] = useState({
-    service: '',
+    service: 'Domestic',
     articleType: '',
     articlecontent: '',
-    createdAt: '',
+    createdAt: new Date().toISOString().split('T')[0],
     price: '',
     weight: '',
     length: '',
@@ -1105,7 +23,7 @@ const MailAddressForm = () => {
     time: '',
     status: 'requested',
     user: { userId: sessionStorage.getItem('userId') },
-    address: { id: sessionStorage.getItem('id') }
+    address: { id: sessionStorage.getItem('addressId') }
   });
 
   const [addressData, setAddressData] = useState({
@@ -1127,10 +45,8 @@ const MailAddressForm = () => {
       try {
         const response = await axios.get('http://localhost:9999/getAllPostoffice');
         const fetchedPincodes = response.data;
-
-        const sessionPincode = sessionStorage.getItem('id');
+        const sessionPincode = sessionStorage.getItem('addressId');
         const trimmedSessionPincode = sessionPincode ? sessionPincode.trim() : '';
-
         const filteredPincodes = fetchedPincodes.filter(pincodeObj =>
           pincodeObj.pincode.toString().trim() !== trimmedSessionPincode
         );
@@ -1148,16 +64,22 @@ const MailAddressForm = () => {
   }, []);
 
   const handleMailChange = (e) => {
+    const { name, value } = e.target;
     setMailData(prevData => ({
       ...prevData,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+
+    if (['length', 'width', 'height', 'articleType'].includes(name)) {
+      calculatePrice();
+    }
   };
 
   const handleAddressChange = (e) => {
+    const { name, value } = e.target;
     setAddressData(prevData => ({
       ...prevData,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
   };
 
@@ -1167,18 +89,22 @@ const MailAddressForm = () => {
     }
   };
 
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   const handleSaveAddress = async () => {
     try {
       const response = await axios.post('http://localhost:9999/addAddress', addressData);
-      console.log('Server response:', response.data);
-
       if (response.data && response.data.id) {
-        sessionStorage.setItem('id', response.data.id);
+        sessionStorage.setItem('addressId', response.data.id);
         setMailData(prevData => ({
           ...prevData,
           address: { id: response.data.id }
         }));
-        setCurrentStep(3); // Move to review step
+        setCurrentStep(3);
       } else {
         throw new Error('Address ID not returned from server.');
       }
@@ -1206,10 +132,8 @@ const MailAddressForm = () => {
     const dataToSend = {
       ...mailData,
       user,
-      address,
+      address
     };
-
-    console.log('Mail data being sent to backend:', dataToSend);
 
     try {
       const response = await axios.post('http://localhost:9999/addMail', dataToSend, {
@@ -1218,16 +142,12 @@ const MailAddressForm = () => {
         }
       });
 
-      // Store mId in session storage after successful mail placement
-      if (response.data && response.data.mId) {
-        sessionStorage.setItem('mId', response.data.mId);
+      const mId = response.data.mId;
+      if (mId) {
+        sessionStorage.setItem('mId', mId);
       }
 
-      Swal.fire({
-        title: 'Success',
-        text: 'Mail placed successfully.',
-        icon: 'success',
-      });
+      sessionStorage.setItem('mailData', JSON.stringify(dataToSend));
       navigate('/payment');
     } catch (error) {
       console.error(error.response ? error.response.data : error.message);
@@ -1239,103 +159,187 @@ const MailAddressForm = () => {
     }
   };
 
+  const calculatePrice = () => {
+    const { length, width, height, articleType } = mailData;
+
+    if (!articleType) {
+      setMailData(prev => ({ ...prev, price: 'Select a valid article type' }));
+      return;
+    }
+
+    const volume = Number(length) * Number(width) * Number(height);
+    let price;
+
+    if (volume <= 1000) {
+      price = 50;
+    } else if (volume <= 5000) {
+      price = 100;
+    } else {
+      price = 150;
+    }
+
+    setMailData(prev => ({ ...prev, price }));
+  };
+
+  const getCollectionDateRange = () => {
+    const today = new Date();
+    const minDate = today.toISOString().split('T')[0];
+    const maxDate = new Date();
+    maxDate.setDate(today.getDate() + 7);
+    const maxDateString = maxDate.toISOString().split('T')[0];
+    return { minDate, maxDate: maxDateString };
+  };
+
+  const { minDate, maxDate } = getCollectionDateRange();
+
+  const renderReviewData = () => {
+    return (
+      <>
+        <Navbar></Navbar>
+        <h5>Mail Information</h5>
+        <Form.Group>
+          <Form.Label>Service</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.service} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Article Type</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.articleType} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Article Content</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.articlecontent} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Created At</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.createdAt} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Price</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.price} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Weight (g)</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.weight} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Dimensions (cm)</Form.Label>
+          <div>
+            Length: {mailData.length}, Width: {mailData.width}, Height: {mailData.height}
+          </div>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Value</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.value} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Collection Date</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.collectiondate} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Time</Form.Label>
+          <Form.Control plaintext readOnly value={mailData.time} />
+        </Form.Group>
+
+        <h5>Address Information</h5>
+        {Object.keys(addressData).map(key => (
+          <Form.Group key={key}>
+            <Form.Label>{key.replace(/([A-Z])/g, ' $1').toUpperCase()}</Form.Label>
+            <Form.Control plaintext readOnly value={addressData[key]} />
+          </Form.Group>
+        ))}
+      </>
+    );
+  };
+
   return (
     <Container className="my-4">
       <Card className={`${styles.formContainer} p-4 shadow-lg rounded-lg`}>
+        <div className={styles.stepperContainer}>
+          <div className={`${styles.step} ${currentStep === 1 ? styles.stepActive : ''}`}>1</div>
+          <div className={`${styles.stepLine} ${currentStep > 1 ? styles.stepLineActive : ''}`}></div>
+          <div className={`${styles.step} ${currentStep === 2 ? styles.stepActive : ''}`}>2</div>
+          <div className={`${styles.stepLine} ${currentStep > 2 ? styles.stepLineActive : ''}`}></div>
+          <div className={`${styles.step} ${currentStep === 3 ? styles.stepActive : ''}`}>3</div>
+        </div>
+
         <Form>
           {currentStep === 1 && (
-            <div>
+            <div className={styles.formContainer}>
               <Card.Title className={styles.cardTitle}>Mail Information</Card.Title>
-              {[
-                { label: 'Service', name: 'service', type: 'text' },
-                { label: 'Article Type', name: 'articleType', type: 'text' },
+              {[{ label: 'Service', name: 'service', type: 'text' },
+                { label: 'Article Type', name: 'articleType', type: 'select', options: ['letter', 'parcel', 'postcard'] },
                 { label: 'Article Content', name: 'articlecontent', type: 'text' },
-                { label: 'Created At', name: 'createdAt', type: 'date' },
-                { label: 'Price', name: 'price', type: 'number' },
-                { label: 'Weight', name: 'weight', type: 'number' },
-                { label: 'Length', name: 'length', type: 'number' },
-                { label: 'Height', name: 'height', type: 'number' },
-                { label: 'Width', name: 'width', type: 'number' },
+                { label: 'Created At', name: 'createdAt', type: 'date', disabled: true },
+                { label: 'Price', name: 'price', type: 'text', disabled: true },
+                { label: 'Weight (g)', name: 'weight', type: 'number' },
+                { label: 'Length (cm)', name: 'length', type: 'number' },
+                { label: 'Height (cm)', name: 'height', type: 'number' },
+                { label: 'Width (cm)', name: 'width', type: 'number' },
                 { label: 'Value', name: 'value', type: 'number' },
-                { label: 'Collection Date', name: 'collectiondate', type: 'date' },
-                { label: 'Time', name: 'time', type: 'text' }
-              ].map(({ label, name, type }) => (
-                <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-                  <Form.Label className={styles.formLabel}>{label}</Form.Label>
-                  <Form.Control
-                    type={type}
-                    name={name}
-                    value={mailData[name]}
-                    onChange={handleMailChange}
-                    placeholder={`Enter ${label.toLowerCase()}`}
-                    className={styles.formControl}
-                  />
-                </Form.Group>
-              ))}
-              <Button className={`${styles.buttonNext} mt-3`} onClick={handleNext}>Next</Button>
+                { label: 'Collection Date', name: 'collectiondate', type: 'date', min: minDate, max: maxDate },
+                { label: 'Time', name: 'time', type: 'select', options: ['Morning', 'Afternoon', 'Evening'] }]
+                .map(({ label, name, type, options, disabled, min, max }) => (
+                  <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
+                    <Form.Label className={styles.formLabel}>{label}</Form.Label>
+                    {type === 'select' ? (
+                      <Form.Control
+                        as="select"
+                        name={name}
+                        value={mailData[name]}
+                        onChange={handleMailChange}
+                        className={styles.formControl}
+                      >
+                        <option value="">Select</option>
+                        {options.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </Form.Control>
+                    ) : (
+                      <Form.Control
+                        type={type}
+                        name={name}
+                        value={mailData[name]}
+                        onChange={handleMailChange}
+                        disabled={disabled}
+                        min={min}
+                        max={max}
+                        className={styles.formControl}
+                      />
+                    )}
+                  </Form.Group>
+                ))}
+              <Button onClick={handleNext} className="mt-3">Next</Button>
             </div>
           )}
 
           {currentStep === 2 && (
-            <div>
+            <div className={styles.formContainer}>
               <Card.Title className={styles.cardTitle}>Address Information</Card.Title>
-              {[
-                { label: 'Recipient\'s Name', name: 'toName', type: 'text' },
-                { label: 'Address', name: 'toAddress', type: 'text' },
-                { label: 'Country', name: 'toCountry', type: 'text' },
-                { label: 'State', name: 'toState', type: 'text' },
-                { label: 'City', name: 'toCity', type: 'text' },
-                { label: 'Pincode', name: 'toPincode', type: 'text' }
-              ].map(({ label, name, type }) => (
-                <Form.Group className={styles.formGroup} controlId={`form${name}`} key={name}>
-                  <Form.Label className={styles.formLabel}>{label}</Form.Label>
-                  {name === 'toPincode' ? (
-                    <Form.Control
-                      as="select"
-                      name="toPincode"
-                      value={addressData.toPincode}
-                      onChange={handleAddressChange}
-                      className={styles.formControl}
-                    >
-                      <option value="">Select Pincode</option>
-                      {pincodes.map((pincodeObj) => (
-                        <option key={pincodeObj.pincode} value={pincodeObj.pincode}>
-                          {pincodeObj.pincode} - {pincodeObj.postOfficeName}
-                        </option>
-                      ))}
-                    </Form.Control>
-                  ) : (
-                    <Form.Control
-                      type={type}
-                      name={name}
-                      value={addressData[name]}
-                      onChange={handleAddressChange}
-                      placeholder={`Enter ${label.toLowerCase()}`}
-                      className={styles.formControl}
-                    />
-                  )}
+              {Object.keys(addressData).map(key => (
+                <Form.Group className={styles.formGroup} controlId={`form${key}`} key={key}>
+                  <Form.Label className={styles.formLabel}>{key.replace(/([A-Z])/g, ' $1').toUpperCase()}</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name={key}
+                    value={addressData[key]}
+                    onChange={handleAddressChange}
+                    className={styles.formControl}
+                  />
                 </Form.Group>
               ))}
-              <Button className={`${styles.buttonSave} mt-3`} onClick={handleSaveAddress}>Save Address</Button>
+              <Button onClick={handleSaveAddress} className="mt-3">Save Address</Button>
+              <Button onClick={handleBack} className="mt-3 ml-2">Back</Button>
             </div>
           )}
 
           {currentStep === 3 && (
-            <div>
-              <Card.Title className={styles.cardTitle}>Review and Submit</Card.Title>
-              <h5>Mail Information:</h5>
-              <ul>
-                {Object.entries(mailData).map(([key, value]) => (
-                  <li key={key}>{`${key}: ${value}`}</li>
-                ))}
-              </ul>
-              <h5>Address Information:</h5>
-              <ul>
-                {Object.entries(addressData).map(([key, value]) => (
-                  <li key={key}>{`${key}: ${value}`}</li>
-                ))}
-              </ul>
-              <Button className={`${styles.buttonSubmit} mt-3`} onClick={handleSubmit}>Review and Proceed to Payment</Button>
+            <div className={styles.formContainer}>
+              <Card.Title className={styles.cardTitle}>Review</Card.Title>
+              {renderReviewData()}
+              <div className="d-flex justify-content-between mt-3">
+                <Button onClick={handleBack}>Back</Button>
+                <Button onClick={handleSubmit} className="ml-2">Submit</Button>
+              </div>
             </div>
           )}
         </Form>
@@ -1345,3 +349,4 @@ const MailAddressForm = () => {
 };
 
 export default MailAddressForm;
+

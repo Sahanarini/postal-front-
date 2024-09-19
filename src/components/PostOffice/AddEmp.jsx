@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const EmployeeRegistration = () => {
     const [employee, setEmployee] = useState({
         empName: '',
         empMobile: '',
         area: '',
-        slot: '',
-        deliverydate: '',
-        deliverytime: '',
         empEmail: '',
         password: ''
     });
 
-    // Function to retrieve pincode from local storage or context
     const getPincode = () => {
-        // Example: retrieve from localStorage
         return sessionStorage.getItem('pincode');
     };
 
@@ -30,52 +26,85 @@ const EmployeeRegistration = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Retrieve pincode from local storage
         const pincode = getPincode();
 
-        // Create FormData object
-        
         const formData = new FormData();
         formData.append('empName', employee.empName);
         formData.append('empMobile', employee.empMobile);
         formData.append('area', employee.area);
-        formData.append('slot', employee.slot);
-        formData.append('deliverydate', employee.deliverydate);
-        formData.append('deliverytime', employee.deliverytime);
         formData.append('empEmail', employee.empEmail);
         formData.append('password', employee.password);
         formData.append('pincode', pincode);
+        formData.append('slot', 1);
+        formData.append('deliverydate', '2024-10-20');
+        formData.append('deliverytime', '10:44:00.000000');
 
-        // Send FormData in POST request
         axios.post('http://localhost:9999/addEmp', formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
             .then(response => {
-                alert('Employee added successfully');
-                // Reset form or handle success as needed
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Employee added successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
                 setEmployee({
                     empName: '',
                     empMobile: '',
                     area: '',
-                    slot: '',
-                    deliverydate: '',
-                    deliverytime: '',
                     empEmail: '',
                     password: ''
                 });
             })
             .catch(error => {
                 console.error('There was an error adding the employee!', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'There was an error adding the employee.',
+                    icon: 'error',
+                    confirmButtonText: 'Try Again'
+                });
             });
     };
 
+    const formStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '400px',
+        margin: 'auto',
+        padding: '20px',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        backgroundColor: '#f9f9f9'
+    };
+
+    const labelStyle = {
+        marginBottom: '8px',
+        fontWeight: 'bold'
+    };
+
+    const inputStyle = {
+        marginBottom: '16px',
+        padding: '8px',
+        border: '1px solid #ccc',
+        borderRadius: '4px'
+    };
+
+    const buttonStyle = {
+        padding: '10px',
+        backgroundColor: '#4CAF50',
+        color: 'white',
+        border: 'none',
+        borderRadius: '4px',
+        cursor: 'pointer'
+    };
 
     return (
-        <form onSubmit={handleSubmit}>
-            {/* Form fields remain the same */}
-            <label>
+        <form onSubmit={handleSubmit} style={formStyle}>
+            <label style={labelStyle}>
                 Employee Name:
                 <input
                     type="text"
@@ -83,10 +112,10 @@ const EmployeeRegistration = () => {
                     value={employee.empName}
                     onChange={handleChange}
                     required
+                    style={inputStyle}
                 />
             </label>
-            <br />
-            <label>
+            <label style={labelStyle}>
                 Mobile Number:
                 <input
                     type="number"
@@ -94,10 +123,10 @@ const EmployeeRegistration = () => {
                     value={employee.empMobile}
                     onChange={handleChange}
                     required
+                    style={inputStyle}
                 />
             </label>
-            <br />
-            <label>
+            <label style={labelStyle}>
                 Area:
                 <input
                     type="text"
@@ -105,43 +134,10 @@ const EmployeeRegistration = () => {
                     value={employee.area}
                     onChange={handleChange}
                     required
+                    style={inputStyle}
                 />
             </label>
-            <br />
-            <label>
-                Slot:
-                <input
-                    type="number"
-                    name="slot"
-                    value={employee.slot}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <br />
-            <label>
-                Delivery Date:
-                <input
-                    type="date"
-                    name="deliverydate"
-                    value={employee.deliverydate}
-                    onChange={handleChange}
-                    
-                />
-            </label>
-            <br />
-            <label>
-                Delivery Time:
-                <input
-                    type="time"
-                    name="deliverytime"
-                    value={employee.deliverytime}
-                    onChange={handleChange}
-                    
-                />
-            </label>
-            <br />
-            <label>
+            <label style={labelStyle}>
                 Email:
                 <input
                     type="email"
@@ -149,10 +145,10 @@ const EmployeeRegistration = () => {
                     value={employee.empEmail}
                     onChange={handleChange}
                     required
+                    style={inputStyle}
                 />
             </label>
-            <br />
-            <label>
+            <label style={labelStyle}>
                 Password:
                 <input
                     type="password"
@@ -160,12 +156,14 @@ const EmployeeRegistration = () => {
                     value={employee.password}
                     onChange={handleChange}
                     required
+                    style={inputStyle}
                 />
             </label>
-            <br />
-            <button type="submit">Add Employee</button>
+            <button type="submit" style={buttonStyle}>Add Employee</button>
         </form>
     );
 };
 
 export default EmployeeRegistration;
+
+
